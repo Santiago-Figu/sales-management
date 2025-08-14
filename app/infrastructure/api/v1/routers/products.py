@@ -4,6 +4,7 @@ from typing import List
 
 from app.application.services.product_service import ProductService
 from app.infrastructure.api.v1.schemas.products import(
+    ProductBaseSchema,
     ProductCreateSchema,
     ProductUpdateSchema,
     ProductResponseSchema
@@ -11,7 +12,7 @@ from app.infrastructure.api.v1.schemas.products import(
 
 router = APIRouter(prefix="/products", tags=['Products'])
 
-@router.post("/", response_model = ProductResponseSchema)
+@router.post("/", response_model = ProductBaseSchema)
 def create_product(product: ProductCreateSchema):
     product_data = product.model_dump()
     return ProductService.create_product(product_data)

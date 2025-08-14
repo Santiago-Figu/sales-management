@@ -1,8 +1,8 @@
 from typing import List, Optional
-from sqlalchemy.orm import Session
-from domain.models.product import Product
-from domain.ports.product_repository import ProductRepository
-from infrastructure.database.postgres import get_db
+from sqlalchemy.orm import Session, joinedload
+from app.domain.models.product import Product
+from app.domain.ports.product_repository import ProductRepository
+from app.infrastructure.database.postgres import get_db
 
 class PostgresProductRepository(ProductRepository):
     def __init__(self, db: Session):
@@ -18,10 +18,21 @@ class PostgresProductRepository(ProductRepository):
         return product
     
     def get_by_id(self, product_id:int) -> Optional[Product]:
-        return self.db.query(Product).filter(Product.id == product_id).first()
+        return (
+            self.db.query(Product)
+            .options(joinedload(Product.categories))
+            .filter(Product.id == product_id)
+            .first()
+        )
+    
     
     def get_all(self) -> list[Product]:
-        return self.db.query(Product).all()
+        product = (self.db.query(Product)
+                .options(joinedload(Product.categories))
+                .all()
+                )
+        print(f"Product: {product}")
+        return product 
     
     def update(self, product_id:int, product_data:dict) -> Optional[Product]:
         product_update = self.get_by_id(product_id)
@@ -29,7 +40,7 @@ class PostgresProductRepository(ProductRepository):
             for key, value in product_data.items():
                 setattr(product_update, key, value)
             self.db.commit()
-            self.db.refresh()
+            self.db.refresh(product_update)
         else:
             #ToDo: Implementar el logger
             pass

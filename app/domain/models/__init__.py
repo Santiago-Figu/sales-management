@@ -1,8 +1,7 @@
 # app/domain/models/__init__.py
-from app.infrastructure.database.postgres import Base
-from .product import Product
-from .supplier import Supplier
-from .seller import Seller
+# from app.infrastructure.database.postgres import Base
+# from app.domain.models.category import Category
+# from app.domain.models.product import Product
 
-# Fuerza el registro de modelos
-__all__ = ['Product', 'Supplier', 'Seller']
+# # Fuerza el registro de modelos
+# __all__ = ['Category', 'Product', 'Base']
