@@ -7,13 +7,15 @@ EXPOSE 8010
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     APP_HOME=/app \
-    PIP_NO_CACHE_DIR=1
+    PIP_NO_CACHE_DIR=1 \
+    TZ=America/Mexico_City
 
 WORKDIR /app
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gcc python3-dev libpq-dev && \
+    apt-get install -y --no-install-recommends gcc python3-dev libpq-dev tzdata && \
     apt-get install -y wkhtmltopdf && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
