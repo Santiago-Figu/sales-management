@@ -9,6 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 class Settings(BaseSettings):
     ENVIRONMENT: str = "development"
+
     # Configuración PostgreSQL
     POSTGRES_USER: str = 'postgres'
     POSTGRES_PASSWORD: str = 'admin'
@@ -17,8 +18,10 @@ class Settings(BaseSettings):
     POSTGRES_DB: str = 'sales_db'
     POSTGRES_SCHEMA: str = 'public'
 
-    # Auth
+    #FastApi
+    API_PREFIX: Optional[str]= '/demo/api/v1'
 
+    # Auth
     SECRET_KEY: str = 'tu_secret_key'
     FERNET_KEY: str = 'tu_fernet_key'
     
