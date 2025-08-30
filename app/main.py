@@ -3,6 +3,9 @@ from app.core.settings.configdb import settings
 from app.infrastructure.api.v1.routers.products import router as products_router
 from app.infrastructure.api.v1.routers.categories import router as categories_router
 from app.infrastructure.api.v1.routers.barcode import router as barcode_router
+from app.infrastructure.api.v1.routers.users import router as users_router
+from app.infrastructure.api.v1.routers.auth import router as auth_router
+from app.infrastructure.api.v1.routers.testing import router as testing_router
 from app.infrastructure.database.postgres import Base, engine
 import uvicorn
 
@@ -14,9 +17,13 @@ app = FastAPI(
     version="1.0.0"
 )
 
+app.include_router(auth_router,prefix=settings.API_PREFIX)
+app.include_router(users_router,prefix=settings.API_PREFIX)
 app.include_router(products_router,prefix=settings.API_PREFIX)
 app.include_router(categories_router,prefix=settings.API_PREFIX)
 app.include_router(barcode_router,prefix=settings.API_PREFIX)
+#ToDo: agregar condicional para mostrar estas rutas solo en desarrollo
+app.include_router(testing_router,prefix=settings.API_PREFIX)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -24,6 +24,7 @@ class Settings(BaseSettings):
     # Auth
     SECRET_KEY: str = 'tu_secret_key'
     FERNET_KEY: str = 'tu_fernet_key'
+    ENCODING: Optional[str] = 'utf-8'
     
     # Configuración MongoDB
     MONGO_USER: Optional[str] = None

@@ -1,6 +1,6 @@
 from pydantic import BaseModel, field_serializer
 from typing import Optional
-from app.utils.barcode.bar_code import code_product_format
+from app.core.barcode.bar_code import code_product_format
 
 class BarCodeBaseSchema(BaseModel):
     internal_code: str = "00342"

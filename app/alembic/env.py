@@ -12,11 +12,12 @@ from app.core.settings.configdb import settings
 # En mi caso no lo hacía haci que use la funcion 
 from app.domain.models.category import Category
 from app.domain.models.product import Product
+from app.domain.models.user import User
 
 
 def create_models():
     """Función que fuerza el registro de todos los modelos solo en casos desesperados"""
-    for model in [Category, Product]:
+    for model in [Category, Product, User]:
         if not hasattr(model, '__table__'):
             raise RuntimeError(f"Modelo {model.__name__} no está correctamente definido")
         # Fuerza la creación/registro de la tabla
@@ -27,7 +28,7 @@ def create_models():
 def registered_models():
     """Función que fuerza el registro de modelos en metadata sin crear las tablas"""
     # creación de los objetos Table
-    for table in [Product, Category]:
+    for table in [Product, Category, User]:
         Base.metadata._add_table(table.__tablename__, table.__table__.schema, table.__table__)
     
     print("\nTablas registradas en metadata:")
